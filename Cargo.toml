@@ -1,9 +1,10 @@
 [package]
 name = "horizon-plugin-api"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2021"
 authors = ["Tristan Poland <redstonecrafter126@gmail.com>"]
 license = "MIT"
 description = "Horizon Plugin Base Implementation"
 
 [dependencies]
+socketioxide = "0.15.1"
