@@ -6,3 +6,7 @@ pub enum Pluginstate {
     INACTIVE,
     CRASH,
 }
+
+pub struct LoadedPlugin {
+    pub instance: Plugin,
+}
