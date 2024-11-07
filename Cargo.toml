@@ -1,5 +1,5 @@
 [package]
-name = "Horizon-Plugin-API"
+name = "horizon-plugin-api"
 version = "0.1.0"
 edition = "2021"
 authors = ["Tristan Poland <redstonecrafter126@gmail.com>"]
