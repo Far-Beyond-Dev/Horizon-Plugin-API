@@ -1,3 +1,4 @@
+#[derive(Clone)]
 pub struct Plugin {}
 
 #[derive(PartialEq, Eq,Hash)]
@@ -7,6 +8,7 @@ pub enum Pluginstate {
     CRASH,
 }
 
+#[derive(Clone)]
 pub struct LoadedPlugin {
     pub instance: Plugin,
 }
