@@ -12,3 +12,19 @@ pub enum Pluginstate {
 pub struct LoadedPlugin {
     pub instance: Plugin,
 }
+
+pub struct Version {
+    pub major: u16,
+    pub minor: u16,
+    pub hotfix: u16,
+}
+
+#[macro_export]
+macro_rules! get_plugin {
+    ($name:ident, $plugins:expr) => {
+        $plugins
+            .get(stringify!($name))
+            .map(|p| &p.instance as &dyn $name::Plugin_API)
+            .expect(&format!("Plugin {} not found", stringify!($name)))
+    };
+}
