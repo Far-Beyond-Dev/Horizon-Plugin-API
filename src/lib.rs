@@ -24,7 +24,7 @@ macro_rules! get_plugin {
     ($name:ident, $plugins:expr) => {
         $plugins
             .get(stringify!($name))
-            .map(|p| &p.instance as &dyn $name::PluginAPI)
+            .map(|p| &p as &dyn $name::PluginAPI)
             .expect(&format!("Plugin {} not found", stringify!($name)))
     };
 }
