@@ -1,7 +1,7 @@
 #[derive(Clone)]
 pub struct Plugin {}
 
-#[derive(PartialEq, Eq,Hash)]
+#[derive(PartialEq, Eq, Hash, Clone)]
 pub enum Pluginstate {
     ACTIVE,
     INACTIVE,
