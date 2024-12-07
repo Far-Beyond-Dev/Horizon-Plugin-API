@@ -28,3 +28,13 @@ macro_rules! get_plugin {
             .expect(&format!("Plugin {} not found", stringify!($name)))
     };
 }
+
+#[macro_export]
+macro_rules! get_type_from_plugin {
+    ($name:ident, $plugins:expr, $api:ty) => {
+        $plugins
+            .get(stringify!($name))
+            .map(|p| &p.instance as $name::&$api)
+            .expect(&format!("Plugin {} not found", stringify!($name)))
+    };
+}
