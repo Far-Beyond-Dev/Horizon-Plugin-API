@@ -148,9 +148,9 @@ where
 
 /// Context provided to plugins for interacting with the server
 pub struct PluginContext {
-    event_bus: Arc<dyn EventBusInterface>,
-    network_manager: Arc<dyn NetworkManagerInterface>,
-    cluster_manager: Arc<dyn ClusterManagerInterface>,
+    pub event_bus: Arc<dyn EventBusInterface>,
+    pub network_manager: Arc<dyn NetworkManagerInterface>,
+    pub cluster_manager: Arc<dyn ClusterManagerInterface>,
     pub region_id: RegionCoordinate,
     pub server_config: Arc<ServerConfig>,
 }
