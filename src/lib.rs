@@ -216,6 +216,22 @@ impl PluginContext {
     pub fn update_load(&self, load: f32) {
         self.cluster_manager.update_load(load);
     }
+
+    pub fn from_file(
+        event_bus: Arc<dyn EventBusInterface>,
+        network_manager: Arc<dyn NetworkManagerInterface>,
+        cluster_manager: Arc<dyn ClusterManagerInterface>,
+        region_id: RegionCoordinate,
+        server_config: Arc<ServerConfig>,
+    ) -> Self {
+        Self {
+            event_bus,
+            network_manager,
+            cluster_manager,
+            region_id,
+            server_config,
+        }
+    }
 }
 
 // ============================================================================
