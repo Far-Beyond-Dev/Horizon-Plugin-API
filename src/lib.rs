@@ -217,20 +217,27 @@ impl PluginContext {
         self.cluster_manager.update_load(load);
     }
 
+    /// Create a plugin context from a configuration file
     pub fn from_file(
+        path: std::path::PathBuf,
         event_bus: Arc<dyn EventBusInterface>,
         network_manager: Arc<dyn NetworkManagerInterface>,
         cluster_manager: Arc<dyn ClusterManagerInterface>,
-        region_id: RegionCoordinate,
-        server_config: Arc<ServerConfig>,
-    ) -> Self {
-        Self {
+    ) -> Result<Self> {
+        // Read and parse the config file
+        let config_str = std::fs::read_to_string(path)
+            .map_err(|e| anyhow::anyhow!("Failed to read config file: {}", e))?;
+        
+        let server_config: ServerConfig = serde_json::from_str(&config_str)
+            .map_err(|e| anyhow::anyhow!("Failed to parse config file: {}", e))?;
+            
+        Ok(Self {
             event_bus,
             network_manager,
             cluster_manager,
-            region_id,
-            server_config,
-        }
+            region_id: server_config.region.clone(),
+            server_config: Arc::new(server_config),
+        })
     }
 }
 
