@@ -82,6 +82,34 @@ impl Default for ServerConfig {
     }
 }
 
+impl ServerConfig {
+    /// Create a new server configuration with default values
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    /// Load configuration from a file (not implemented here)
+    pub fn from_file(_path: &str) -> Result<Self> {
+        // Load configuration from file using serde
+        let content = std::fs::read_to_string(_path)?;
+        
+        // Try to parse as JSON first
+        match serde_json::from_str::<Self>(&content) {
+            Ok(config) => Ok(config),
+            Err(json_err) => {
+            // If JSON parsing fails, try TOML
+            match toml::from_str::<Self>(&content) {
+                Ok(config) => Ok(config),
+                Err(_) => {
+                // If both fail, return the JSON error for better diagnostics
+                Err(anyhow::anyhow!("Failed to parse config file: {}", json_err))
+                }
+            }
+            }
+        }
+    }
+}
+
 // ============================================================================
 // Event System Traits
 // ============================================================================
@@ -215,29 +243,6 @@ impl PluginContext {
     /// Update the local node's load metric
     pub fn update_load(&self, load: f32) {
         self.cluster_manager.update_load(load);
-    }
-
-    /// Create a plugin context from a configuration file
-    pub fn from_file(
-        path: impl AsRef<std::path::Path>,
-        event_bus: Arc<dyn EventBusInterface>,
-        network_manager: Arc<dyn NetworkManagerInterface>,
-        cluster_manager: Arc<dyn ClusterManagerInterface>,
-    ) -> Result<Self> {
-        // Read and parse the config file
-        let config_str = std::fs::read_to_string(&path)
-            .map_err(|e| anyhow::anyhow!("Failed to read config file at {:?}: {}", path.as_ref(), e))?;
-        
-        let server_config: ServerConfig = serde_json::from_str(&config_str)
-            .map_err(|e| anyhow::anyhow!("Failed to parse config file as JSON: {}", e))?;
-            
-        Ok(Self {
-            event_bus,
-            network_manager,
-            cluster_manager,
-            region_id: server_config.region.clone(),
-            server_config: Arc::new(server_config),
-        })
     }
 }
 
