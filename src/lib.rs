@@ -68,6 +68,20 @@ pub struct ServerConfig {
     pub plugin_directories: Vec<String>,
 }
 
+impl Default for ServerConfig {
+    fn default() -> Self {
+        Self {
+            region: RegionCoordinate { x: 0, y: 0, z: 0 },
+            listen_address: "127.0.0.1:7777".parse().unwrap(),
+            max_connections: 10000,
+            tick_rate: 60,
+            cluster_discovery_port: 7778,
+            enable_clustering: true,
+            plugin_directories: vec!["plugins/".to_string()],
+        }
+    }
+}
+
 // ============================================================================
 // Event System Traits
 // ============================================================================
@@ -157,6 +171,11 @@ impl PluginContext {
             region_id,
             server_config,
         }
+    }
+
+    /// Register an event type for a plugin
+    pub async fn register_event(&self, plugin_id: PluginId, event_type_id: EventTypeId) -> Result<()> {
+        self.event_bus.register_event(plugin_id, event_type_id).await
     }
 
     /// Emit an event to the event bus
