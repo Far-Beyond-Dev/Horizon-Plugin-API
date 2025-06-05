@@ -219,17 +219,17 @@ impl PluginContext {
 
     /// Create a plugin context from a configuration file
     pub fn from_file(
-        path: std::path::PathBuf,
+        path: impl AsRef<std::path::Path>,
         event_bus: Arc<dyn EventBusInterface>,
         network_manager: Arc<dyn NetworkManagerInterface>,
         cluster_manager: Arc<dyn ClusterManagerInterface>,
     ) -> Result<Self> {
         // Read and parse the config file
-        let config_str = std::fs::read_to_string(path)
-            .map_err(|e| anyhow::anyhow!("Failed to read config file: {}", e))?;
+        let config_str = std::fs::read_to_string(&path)
+            .map_err(|e| anyhow::anyhow!("Failed to read config file at {:?}: {}", path.as_ref(), e))?;
         
         let server_config: ServerConfig = serde_json::from_str(&config_str)
-            .map_err(|e| anyhow::anyhow!("Failed to parse config file: {}", e))?;
+            .map_err(|e| anyhow::anyhow!("Failed to parse config file as JSON: {}", e))?;
             
         Ok(Self {
             event_bus,
