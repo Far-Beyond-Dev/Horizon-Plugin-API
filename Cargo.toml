@@ -3,7 +3,7 @@ name = "horizon-plugin-api"
 description = "API utils and shared types for Horizon plugins"
 license = "MIT"
 authors = ["Tristan J. Poland"]
-version = "0.2.1"
+version = "0.2.2"
 edition = "2021"
 
 [lib]
