@@ -1,5 +1,8 @@
 [package]
 name = "horizon-plugin-api"
+description = "API utils and shared types for Horizon plugins"
+license = "MIT"
+authors = ["Tristan J. Poland"]
 version = "0.2.1"
 edition = "2021"
 
